@@ -25,11 +25,11 @@ void loop() {
 
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
-  float h = dht.readHumidity();
+  float humidity = dht.readHumidity();
   // Read temperature as Celsius (the default)
-  float t = dht.readTemperature();
+  float temperature = dht.readTemperature();
   // Read temperature as Fahrenheit (isFahrenheit = true)
-  float f = dht.readTemperature(true);
+  float fahrenheit = dht.readTemperature(true);
 
   // Check if any reads failed and exit early (to try again).
   if (isnan(h) || isnan(t) || isnan(f)) {
@@ -37,18 +37,21 @@ void loop() {
     return;
   }
 
-  if (t <= 35) {
+  if (temperature <= 28) {
+    digitalWrite(FANPIN, LOW);
     digitalWrite(LEDPIN, HIGH);
   } else {
+    digitalWrite(LEDPIN, LOW);
     digitalWrite(FANPIN, HIGH);
   }
 
+  // Check Humidity, Temperature & Fahrenheit
   Serial.print(F("Humidity: "));
-  Serial.print(h);
+  Serial.print(humidity);
   Serial.print(F("%  Temperature: "));
-  Serial.print(t);
+  Serial.print(temperature);
   Serial.print(F("*C  Fahrenheit: "));
-  Serial.print(f);
+  Serial.print(fahrenheit);
   Serial.println(F("*F"));
   delay(200);
 
